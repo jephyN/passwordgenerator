@@ -55,14 +55,17 @@ def interact_main_menu():
             characters = []
             for i in range(length):
                 option = pick(options)
-                if option == 0:
-                    add_element(characters, pick(string.ascii_lowercase))
-                elif option == 1:
-                    add_element(characters, pick(string.ascii_uppercase))
-                elif option == 2:
-                    add_element(characters, pick(string.digits))
-                elif option == 3:
-                    add_element(characters, pick('!@#$%&^|()_+'))
+
+                match option:
+                    case 0:
+                        add_element(characters, pick(string.ascii_lowercase))
+                    case 1:
+                        add_element(characters, pick(string.ascii_uppercase))
+                    case 2:
+                        add_element(characters, pick(string.digits))
+                    case 3:
+                        add_element(characters, pick('!@#$%&^|()_+'))
+
             password = ''.join(characters)
             print('Generate password: ', password)
         elif choice == '2':
