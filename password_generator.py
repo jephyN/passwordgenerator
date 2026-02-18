@@ -27,6 +27,22 @@ def print_error():
     print('Please enter a correct value')
 
 
+def prompt_boolean_input(prompt):
+    """Prompt the user for a yes/no input and return it, retrying until valid.
+
+    Args:
+        prompt (str): The message to display to the user.
+
+    Returns:
+        str: A valid input, either 'y', 'Y', 'n', or 'N'.
+    """
+    value = input(prompt).strip()
+    while value not in ('y', 'Y', 'n', 'N'):
+        print_error()
+        value = input(prompt).strip()
+    return value
+
+
 def add_valid_option(password_options: list, input_option, name):
     """Add a password option to the list if the user confirmed with 'y' or 'Y'.
 
@@ -46,32 +62,57 @@ def add_valid_option(password_options: list, input_option, name):
     return True
 
 
-def interact_main_menu(choice=''):
+def get_password_length():
+    """Prompt the user for a valid password length and return it.
+
+    Returns:
+        int: A positive integer representing the desired password length,
+             or None if the input was invalid.
+    """
+    try:
+        length = int(input('Provide password length:'))
+        if length < 1:
+            print_error()
+            return None
+    except ValueError:
+        print_error()
+        return None
+    return length
+
+
+def get_password_options():
+    """Prompt the user for password character options and return the selected options.
+
+    Returns:
+        list: A list of selected character type options, or None if input was invalid.
+    """
+    options = ["lowercase"]
+    uppercase = prompt_boolean_input('Use uppercase letters? (y/n):')
+    if not add_valid_option(options, uppercase, "uppercase"):
+        return None
+    digit = prompt_boolean_input('Use digits? (y/n):')
+    if not add_valid_option(options, digit, "digit"):
+        return None
+    special_character = prompt_boolean_input('Use special characters? (y/n):')
+    if not add_valid_option(options, special_character, "special_character"):
+        return None
+    return options
+
+
+def interact_main_menu():
     """Display the main menu and handle user interaction in a loop until exit."""
+    choice = ''
     while choice != '2':
         choice = input(MENU)
         if choice == '1':
-            options = ["lowercase"]
-            try:
-                length = int(input('Provide password length:'))
-                if length < 1:
-                    print_error()
-                    continue
-            except ValueError:
-                print_error()
+            length = get_password_length()
+            if length is None:
                 continue
-            uppercase = input('Use uppercase letters? (y/n):').strip()
-            if not add_valid_option(options, uppercase, "uppercase"):
+            options = get_password_options()
+            if options is None:
                 continue
-            digit = input('Use digits? (y/n):').strip()
-            if not add_valid_option(options, digit, "digit"):
-                continue
-            special_character = input('Use special characters? (y/n):').strip()
-            if not add_valid_option(options, special_character, "special_character"):
-                continue
-
             password = generate_password(length, options)
-            print('Generate password: ', password)
+            print('Generated password: ', password)
         elif choice == '2':
             print('Bye!')
             sys.exit()
