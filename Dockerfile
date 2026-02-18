@@ -19,7 +19,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Copy the source code into the container.
-COPY passwordGenerator.py .
+COPY password_generator.py .
 
 # Run the application.
 CMD ["python", "passwordGenerator.py"]
