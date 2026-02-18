@@ -6,4 +6,4 @@ In order to run the project successfully you should have the following installed
 
 ## How to Start the Application
 Simply execute the following command:
-`python passwordGenerator.py`
+`python password_generator.py`

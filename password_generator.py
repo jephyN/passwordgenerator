@@ -1,8 +1,10 @@
+"""This module handles password generation."""
+
 import string
 import sys
 import random
 
-menu = '''
+MENU = '''
 -- Password generator --
 Choose option:
 1: generate password
@@ -33,7 +35,7 @@ def add_valid_option(password_options: list, input_option, name):
 
 def interact_main_menu(choice=''):
     while choice != '2':
-        choice = input(menu)
+        choice = input(MENU)
         if choice == '1':
             options = ["lowercase"]
             try:
